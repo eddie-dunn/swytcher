@@ -9,7 +9,7 @@ import logging
 import Xlib
 import Xlib.display
 
-from util import exception_handler
+from .util import exception_handler
 
 DISP = Xlib.display.Display()
 ROOT = DISP.screen().root
@@ -52,7 +52,7 @@ def handle_xevent(event: Xlib.X.PropertyNotify, callback: XeventCB) -> None:
                                     Xlib.X.AnyPropertyType).value[0]
 
     window = DISP.create_resource_object('window', win_id)
-    wmclass = window.get_wm_class()
+    wmclass = window.get_wm_class() or tuple()
     wmname = get_window_name(window)
     callback(name_list=[*wmclass, wmname])
 

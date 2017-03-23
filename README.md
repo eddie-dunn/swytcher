@@ -12,7 +12,8 @@ setxkbmap \
 	-option grp:shifts_toggle \  # toggle layout by lshift+rshift
 	-option grp_led:caps \  # caps led indicates secondary layout
 	-option caps:escape \  # map caps to escape
-	se,us  # set US layout as primary, Swedish as secondary
+	\  # set US layout as first, Swedish as second, US intl as third:
+	"us,se,us(altgr-intl)"
 ```
 
 ## TODO
