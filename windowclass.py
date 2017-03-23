@@ -3,6 +3,7 @@
 
 Inspiration taken from http://unix.stackexchange.com/a/334293/138633
 """
+from typing import Callable
 import logging
 
 import Xlib
@@ -17,24 +18,29 @@ NET_ACTIVE_WINDOW = DISP.intern_atom('_NET_ACTIVE_WINDOW')
 NET_WM_NAME = DISP.intern_atom('_NET_WM_NAME')  # UTF-8
 WM_NAME = DISP.intern_atom('WM_NAME')  # Legacy encoding
 
+XeventCB = Callable[[list], None]  # pylint: disable=invalid-name
+
 log = logging.getLogger(__name__)  # pylint: disable=invalid-name
-log.level = logging.INFO
 
 
 def get_window_name(window: Xlib.xobject.drawable.Window) -> str:
     """Get window name"""
-    name = window.get_wm_name()
-    if not name:
+    def get_name():
+        """Closure"""
+        log.debug("get_wm_name empty, trying other methods")
         for atom in (NET_WM_NAME, WM_NAME):
-            name = window.get_full_property(atom, 0).value.decode('utf8')
+            name = window.get_full_text_property(atom)
+            if name:
+                return name
 
-    log.debug("Found window name %r", name)
+    name = window.get_wm_name() or get_name() or ''
+    log.debug("Got window name %r", name)
     return name
 
 
 @exception_handler(Exception, log, logging.ERROR, traceback=True)
 @exception_handler(Xlib.error.BadWindow)  # ignore BadWindow
-def handle_xevent(event, callback):
+def handle_xevent(event: Xlib.X.PropertyNotify, callback: XeventCB) -> None:
     """Handle xevent"""
     if event.type != Xlib.X.PropertyNotify:
         return

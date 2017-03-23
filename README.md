@@ -21,7 +21,7 @@ setxkbmap \
 
 * Create setup.py
 
-* Private repo on bitbucket?
+* Private repo on bitbucket? ☑
 
 * Use config-file
 
@@ -39,3 +39,5 @@ setxkbmap \
 More functionality:
 
 * Executable to toggle layout
+* Remember layout for windows
+    * Should be easy to implement using the default fallback

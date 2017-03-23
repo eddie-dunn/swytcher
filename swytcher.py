@@ -11,8 +11,9 @@ import xkbgroup
 import windowclass
 from util import exception_handler
 
-PRIMARY = 'English (US)'
-SECONDARY = 'Swedish'
+PRIMARY = "English"  # default primary layout
+SECONDARY = "Swedish"  # default secondary layout
+LAYOUTS = (PRIMARY, SECONDARY)
 
 SECONDARY_FILTER = (
     "Msgcompose",  # Icedove window class when writing email
@@ -34,6 +35,13 @@ NOTIFY = True
 
 logging.basicConfig(level=LOGLEVEL)
 log = logging.getLogger(__name__)  # pylint: disable=invalid-name
+
+
+def _setup_layouts(xkb):
+    global PRIMARY, SECONDARY, LAYOUTS  # pylint: disable=global-statement
+    PRIMARY = xkb.groups_names[0]
+    SECONDARY = xkb.groups_names[1]
+    LAYOUTS = (PRIMARY, SECONDARY)
 
 
 @exception_handler(FileNotFoundError, log)
@@ -98,10 +106,10 @@ def change_callback(name_list, xkb) -> None:
 def main():
     """Main"""
     xkb = xkbgroup.XKeyboard()
-    layouts = xkb.groups_names
-    log.info("Layouts configured by setxkbmap: %s", layouts)
-    print("[Primary]\n\tlayout {!r}".format(layouts[0]))
-    print("[Secondary]\n\tlayout: {!r}".format(layouts[1]))
+    _setup_layouts(xkb)
+    log.info("Layouts configured by setxkbmap: %s", LAYOUTS)
+    print("[Primary]\n\tlayout {!r}".format(LAYOUTS[0]))
+    print("[Secondary]\n\tlayout: {!r}".format(LAYOUTS[1]))
     partial_cb = functools.partial(change_callback, xkb=xkb)
     windowclass.run(partial_cb)
 
