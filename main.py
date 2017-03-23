@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 """For running Swytcher without installing anything"""
-import swytcher.swytcher
+import swytcher.cli
 
 if __name__ == "__main__":
     try:
-        swytcher.swytcher.main()
+        swytcher.cli.main()
     except KeyboardInterrupt:
         print("\nExiting...\n")
