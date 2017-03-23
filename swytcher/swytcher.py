@@ -8,8 +8,8 @@ import subprocess
 
 import xkbgroup
 
-import windowclass
-from util import exception_handler
+import swytcher.windowclass as windowclass
+from .util import exception_handler
 
 PRIMARY = "English"  # default primary layout
 SECONDARY = "Swedish"  # default secondary layout
@@ -112,10 +112,3 @@ def main():
     print("[Secondary]\n\tlayout: {!r}".format(LAYOUTS[1]))
     partial_cb = functools.partial(change_callback, xkb=xkb)
     windowclass.run(partial_cb)
-
-
-if __name__ == "__main__":
-    try:
-        main()
-    except KeyboardInterrupt:
-        print("\nExiting...\n")
