@@ -27,6 +27,7 @@ PRIMARY_FILTER = (
 )
 PRIMARY_SUBSTRINGS = (
     "VIM",
+    "NVIM",
 )
 LOGLEVEL = logging.DEBUG if os.environ.get("DEBUG") else logging.INFO
 NOTIFY = True
