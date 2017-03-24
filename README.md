@@ -20,11 +20,12 @@ setxkbmap \
 
 * Add tests
 
-* Create setup.py
+* Create setup.py ☑
 
 * Private repo on bitbucket? ☑
 
-* Use config-file
+* Add config file
+    * Use config-file
 
 * Finish README.md
 

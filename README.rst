@@ -18,7 +18,7 @@ Swytcher
      :alt: Updates
 
 
-Automatic
+Automatically switches your keyboard layout based on your active window.
 
 
 * Free software: MIT license
