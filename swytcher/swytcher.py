@@ -87,16 +87,15 @@ def matches(name_list: Iterable[str], strings: Iterable[str],
     `substrings` occur in `name_list`."""
     matched = (set(strings) & set(name_list) or
                _match_substrings(name_list, substrings or {}))
+    log.debug('%r matched %r or %r', name_list, strings, substrings)
     return bool(matched)
 
 
 def change_callback(name_list, xkb) -> None:
     """Event handler when active window is changed"""
     if matches(name_list, SECONDARY_FILTER, SECONDARY_SUBSTRINGS):
-        log.debug("%r matched secondary filters", name_list)
         set_layout(xkb, SECONDARY)
     elif matches(name_list, PRIMARY_FILTER, PRIMARY_SUBSTRINGS):
-        log.debug("%r matched primary filters", name_list)
         set_layout(xkb, PRIMARY)
     else:
         log.debug("No match, using default layout")
