@@ -12,7 +12,7 @@ import swytcher.swytcher as swytcher
 @click.command()
 def main(args=None):
     """Console script for swytcher"""
-    # ("See click documentation at http://click.pocoo.org/")
+    # click.echo("See click documentation at http://click.pocoo.org/")
 
     # Setup logging
     logfile = "{}{}{}".format(
