@@ -55,7 +55,6 @@ def setup_layouts(xkb):
 
 def get_config():
     config = configparser.ConfigParser()
-    print(os.path.dirname(__file__))
     filenames = [os.path.expanduser('~/.config/swytcher/config.ini')]
     if not config.read(filenames):
         default_conf = "%s%s%s" % (os.path.dirname(__file__), os.path.sep,

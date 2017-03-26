@@ -95,7 +95,5 @@ def main(args):  # pragma: no cover
     xkb = xkbgroup.XKeyboard()
     layouts = settings.setup_layouts(xkb)
     log.info("Layouts configured by setxkbmap: %s", layouts)
-    print("[Primary]\n\tlayout {!r}".format(layouts[0]))
-    print("[Secondary]\n\tlayout: {!r}".format(layouts[1]))
     partial_cb = functools.partial(change_callback, xkb=xkb, layouts=layouts)
     xwindow.run(partial_cb)
