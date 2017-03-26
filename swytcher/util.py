@@ -3,11 +3,11 @@ from contextlib import wraps
 import logging
 
 
-def exception_handler(
+def suppress_err(
         exception: Exception, logger: logging.Logger=None,
         level=logging.WARNING, traceback=False):
-    """Decorator that will catch `exception`, and optionally log it with a
-    traceback through the logger.
+    """Decorator that will catch `exception`, suppress it, and optionally log
+    it with a traceback through the logger.
 
     Usage example:
 

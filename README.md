@@ -18,7 +18,7 @@ setxkbmap \
 
 ## TODO
 
-* Add tests
+* Add tests  ☑
 
 * Create setup.py ☑
 

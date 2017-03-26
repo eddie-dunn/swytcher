@@ -13,8 +13,8 @@ def main(args=None):
                "swytcher.cli.main")
     click.echo("See click documentation at http://click.pocoo.org/")
     print(args or "NO ARGS GIVEN")
-    swytcher.main()
+    swytcher.main(args)
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     main()

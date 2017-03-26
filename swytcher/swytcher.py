@@ -9,7 +9,7 @@ import xkbgroup
 
 import swytcher.settings as settings
 import swytcher.xwindow as xwindow
-from .util import exception_handler
+from .util import suppress_err
 
 
 logging.basicConfig(level=settings.LOGLEVEL)
@@ -17,7 +17,7 @@ log = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
 
 # Move this to swytcher.system
-@exception_handler(FileNotFoundError, log)
+@suppress_err(FileNotFoundError, log)
 def notify(title: str, msg: str='') -> None:  # pragma: no cover
     """Use notify-send (if available) to inform user of layout switch."""
     if not settings.NOTIFY:
@@ -35,6 +35,7 @@ def notify(title: str, msg: str='') -> None:  # pragma: no cover
 def change_layout(xkb: xkbgroup.XKeyboard, layout: str) -> bool:
     """Set layout; returns True if layout was changed, False otherwise"""
     if xkb.group_name == layout:  # check against current layout
+        log.debug("%r is already the active layout", layout)
         return False  # don't change layout if it's already correct
     log.info("setting layout %r", layout)
     xkb.group_name = layout
@@ -89,7 +90,7 @@ def change_callback(name_list, xkb, layouts: list) -> None:  # pragma: no cover
         change_layout(xkb, xkb.groups_names[0])
 
 
-def main():  # pragma: no cover
+def main(args):  # pragma: no cover
     """Main"""
     xkb = xkbgroup.XKeyboard()
     layouts = settings.setup_layouts(xkb)

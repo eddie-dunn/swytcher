@@ -3,30 +3,36 @@
 
 Inspiration taken from http://unix.stackexchange.com/a/334293/138633
 """
-# NOTE: Rename to windowname.py
-
 from typing import Callable
 import logging
 
 import Xlib
 import Xlib.display
 
-from .util import exception_handler
+from .util import suppress_err
 
-# NOTE: This is done temporarily to enable testing; should be fixed later
-try:
+
+log = logging.getLogger(__name__)  # pylint: disable=invalid-name
+
+# Globals
+DISP = None
+ROOT = None
+NET_ACTIVE_WINDOW = None
+NET_WM_NAME = None
+WM_NAME = None
+
+
+def _set_globals():  # pragma: no cover
+    """Set global X variables that are used in the module"""
+    # NOTE: There should be a better way to do this, other than using globals.
+    # pylint: disable=global-statement
+    global DISP, ROOT, NET_ACTIVE_WINDOW, NET_WM_NAME, WM_NAME
     DISP = Xlib.display.Display()
     ROOT = DISP.screen().root
     NET_ACTIVE_WINDOW = DISP.intern_atom('_NET_ACTIVE_WINDOW')
     NET_WM_NAME = DISP.intern_atom('_NET_WM_NAME')  # UTF-8
     WM_NAME = DISP.intern_atom('WM_NAME')  # Legacy encoding
-except Xlib.error.DisplayNameError:
-    pass
-
-
-XeventCB = Callable[[list], None]  # pylint: disable=invalid-name
-
-log = logging.getLogger(__name__)  # pylint: disable=invalid-name
+    log.debug("global vars set")
 
 
 def get_window_name(window: Xlib.xobject.drawable.Window) -> str:
@@ -44,9 +50,10 @@ def get_window_name(window: Xlib.xobject.drawable.Window) -> str:
     return name
 
 
-@exception_handler(Exception, log, logging.ERROR, traceback=True)
-@exception_handler(Xlib.error.BadWindow)  # ignore BadWindow
-def handle_xevent(event: Xlib.X.PropertyNotify, callback: XeventCB) -> bool:
+@suppress_err(Exception, log, logging.ERROR, traceback=True)
+@suppress_err(Xlib.error.BadWindow)  # ignore BadWindow
+def handle_xevent(event: Xlib.X.PropertyNotify,
+                  callback: Callable[[list], None]) -> bool:
     """Handle xevent; returns true if an event was handled"""
     if event.type != Xlib.X.PropertyNotify:
         return False
@@ -64,7 +71,7 @@ def handle_xevent(event: Xlib.X.PropertyNotify, callback: XeventCB) -> bool:
     return True
 
 
-def example_handler(name_list: list):
+def example_handler(name_list: list):  # pragma: no cover
     """Example of a callback handler for when a window change occurs.
 
     This one just prints the list of strings that were found in handle_xevent.
@@ -72,7 +79,7 @@ def example_handler(name_list: list):
     print(name_list)
 
 
-def run(callback):
+def run(callback):  # pragma: no cover
     """Runner for getting X window events.
 
     The callback function will be invoked with a list containing the classnames
@@ -80,10 +87,11 @@ def run(callback):
     parameters to the callback, use functools.partial to partially construct
     the callback function.
     """
+    _set_globals()
     ROOT.change_attributes(event_mask=Xlib.X.PropertyChangeMask)
     while True:  # next_event() sleeps until we get an event
         handle_xevent(DISP.next_event(), callback)
 
 
-if __name__ == '__main__':
+if __name__ == '__main__':  # pragma: no cover
     run(callback=example_handler)
