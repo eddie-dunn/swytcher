@@ -3,6 +3,8 @@
 
 Inspiration taken from http://unix.stackexchange.com/a/334293/138633
 """
+# NOTE: Rename to windowname.py
+
 from typing import Callable
 import logging
 
@@ -11,12 +13,16 @@ import Xlib.display
 
 from .util import exception_handler
 
-DISP = Xlib.display.Display()
-ROOT = DISP.screen().root
+# NOTE: This is done temporarily to enable testing; should be fixed later
+try:
+    DISP = Xlib.display.Display()
+    ROOT = DISP.screen().root
+    NET_ACTIVE_WINDOW = DISP.intern_atom('_NET_ACTIVE_WINDOW')
+    NET_WM_NAME = DISP.intern_atom('_NET_WM_NAME')  # UTF-8
+    WM_NAME = DISP.intern_atom('WM_NAME')  # Legacy encoding
+except Xlib.error.DisplayNameError:
+    pass
 
-NET_ACTIVE_WINDOW = DISP.intern_atom('_NET_ACTIVE_WINDOW')
-NET_WM_NAME = DISP.intern_atom('_NET_WM_NAME')  # UTF-8
-WM_NAME = DISP.intern_atom('WM_NAME')  # Legacy encoding
 
 XeventCB = Callable[[list], None]  # pylint: disable=invalid-name
 
@@ -40,13 +46,13 @@ def get_window_name(window: Xlib.xobject.drawable.Window) -> str:
 
 @exception_handler(Exception, log, logging.ERROR, traceback=True)
 @exception_handler(Xlib.error.BadWindow)  # ignore BadWindow
-def handle_xevent(event: Xlib.X.PropertyNotify, callback: XeventCB) -> None:
-    """Handle xevent"""
+def handle_xevent(event: Xlib.X.PropertyNotify, callback: XeventCB) -> bool:
+    """Handle xevent; returns true if an event was handled"""
     if event.type != Xlib.X.PropertyNotify:
-        return
+        return False
 
     if event.atom != NET_ACTIVE_WINDOW:
-        return
+        return False
 
     win_id = ROOT.get_full_property(NET_ACTIVE_WINDOW,
                                     Xlib.X.AnyPropertyType).value[0]
@@ -55,6 +61,7 @@ def handle_xevent(event: Xlib.X.PropertyNotify, callback: XeventCB) -> None:
     wmclass = window.get_wm_class() or tuple()
     wmname = get_window_name(window)
     callback(name_list=[*wmclass, wmname])
+    return True
 
 
 def example_handler(name_list: list):
@@ -79,5 +86,4 @@ def run(callback):
 
 
 if __name__ == '__main__':
-    # main()
     run(callback=example_handler)

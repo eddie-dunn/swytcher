@@ -3,51 +3,24 @@
 from typing import Iterable
 import functools
 import logging
-import os
 import subprocess
 
 import xkbgroup
 
-import swytcher.windowclass as windowclass
+import swytcher.settings as settings
+import swytcher.xwindow as xwindow
 from .util import exception_handler
 
-PRIMARY = "English"  # default primary layout
-SECONDARY = "Swedish"  # default secondary layout
-LAYOUTS = (PRIMARY, SECONDARY)
 
-SECONDARY_FILTER = (
-    "Msgcompose",  # Icedove window class when writing email
-    "Pidgin",
-)
-SECONDARY_SUBSTRINGS = (
-    "Outlook Web App",
-    "Google Hangouts",
-)
-PRIMARY_FILTER = (
-    "Gnome-terminal",
-)
-PRIMARY_SUBSTRINGS = (
-    "VIM",
-    "NVIM",
-)
-LOGLEVEL = logging.DEBUG if os.environ.get("DEBUG") else logging.INFO
-NOTIFY = True
-
-logging.basicConfig(level=LOGLEVEL)
+logging.basicConfig(level=settings.LOGLEVEL)
 log = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
 
-def _setup_layouts(xkb):
-    global PRIMARY, SECONDARY, LAYOUTS  # pylint: disable=global-statement
-    PRIMARY = xkb.groups_names[0]
-    SECONDARY = xkb.groups_names[1]
-    LAYOUTS = (PRIMARY, SECONDARY)
-
-
+# Move this to swytcher.system
 @exception_handler(FileNotFoundError, log)
-def notify(title: str, msg: str='') -> None:
-    """notify-send msg"""
-    if not NOTIFY:
+def notify(title: str, msg: str='') -> None:  # pragma: no cover
+    """Use notify-send (if available) to inform user of layout switch."""
+    if not settings.NOTIFY:
         return
     cmd = [
         'notify-send',
@@ -59,8 +32,8 @@ def notify(title: str, msg: str='') -> None:
     subprocess.call(cmd)
 
 
-def set_layout(xkb: xkbgroup.XKeyboard, layout: str) -> bool:
-    """Set layout"""
+def change_layout(xkb: xkbgroup.XKeyboard, layout: str) -> bool:
+    """Set layout; returns True if layout was changed, False otherwise"""
     if xkb.group_name == layout:  # check against current layout
         return False  # don't change layout if it's already correct
     log.info("setting layout %r", layout)
@@ -88,26 +61,40 @@ def matches(name_list: Iterable[str], strings: Iterable[str],
     matched = (set(strings) & set(name_list) or
                _match_substrings(name_list, substrings or {}))
     log.debug('%r matched %r or %r', name_list, strings, substrings)
-    return bool(matched)
+    return matched
 
 
-def change_callback(name_list, xkb) -> None:
+def change_callback(name_list, xkb, layouts: list) -> None:  # pragma: no cover
     """Event handler when active window is changed"""
-    if matches(name_list, SECONDARY_FILTER, SECONDARY_SUBSTRINGS):
-        set_layout(xkb, SECONDARY)
-    elif matches(name_list, PRIMARY_FILTER, PRIMARY_SUBSTRINGS):
-        set_layout(xkb, PRIMARY)
+    # NOTE: These extracted variables should be removed later
+    primary_filter = layouts[0]['strings']
+    primary_substrings = layouts[0]['substrings']
+    primary = layouts[0]['name']
+    secondary_filter = layouts[1]['strings']
+    secondary_substrings = layouts[1]['substrings']
+    secondary = layouts[1]['name']
+
+    # matched_layout = match_layout(name_list, layouts)
+    # if matched_layout:
+    #   change_layout(xkb, matched_layout)
+    # else:
+    #   change_layout(xkb, last_remembered_layout_for_window)
+
+    if matches(name_list, secondary_filter, secondary_substrings):
+        change_layout(xkb, secondary)
+    elif matches(name_list, primary_filter, primary_substrings):
+        change_layout(xkb, primary)
     else:
-        log.debug("No match, using default layout")
-        set_layout(xkb, xkb.groups_names[0])
+        log.debug("%r: No match, using default layout", name_list)
+        change_layout(xkb, xkb.groups_names[0])
 
 
-def main():
+def main():  # pragma: no cover
     """Main"""
     xkb = xkbgroup.XKeyboard()
-    _setup_layouts(xkb)
-    log.info("Layouts configured by setxkbmap: %s", LAYOUTS)
-    print("[Primary]\n\tlayout {!r}".format(LAYOUTS[0]))
-    print("[Secondary]\n\tlayout: {!r}".format(LAYOUTS[1]))
-    partial_cb = functools.partial(change_callback, xkb=xkb)
-    windowclass.run(partial_cb)
+    layouts = settings.setup_layouts(xkb)
+    log.info("Layouts configured by setxkbmap: %s", layouts)
+    print("[Primary]\n\tlayout {!r}".format(layouts[0]))
+    print("[Secondary]\n\tlayout: {!r}".format(layouts[1]))
+    partial_cb = functools.partial(change_callback, xkb=xkb, layouts=layouts)
+    xwindow.run(partial_cb)
