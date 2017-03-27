@@ -13,7 +13,7 @@ import swytcher.swytcher as swytcher
 def main(args=None):
     """Console script for swytcher"""
     # click.echo("See click documentation at http://click.pocoo.org/")
-
+    click.echo(__name__)
     # Setup logging
     logfile = "{}{}{}".format(
         os.path.dirname(__file__), os.path.sep, 'log_conf.ini')
