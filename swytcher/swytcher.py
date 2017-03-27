@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 """Automatic keyboard layout switcher"""
-from typing import Iterable
 import functools
 import logging
 import subprocess
+from typing import Iterable
 
 import xkbgroup
 
@@ -90,8 +90,9 @@ def change_callback(name_list, xkb, layouts: list) -> None:  # pragma: no cover
         change_layout(xkb, xkb.groups_names[0])
 
 
-def main(args):  # pragma: no cover
+def main(args=None):  # pragma: no cover
     """Main"""
+    print(args)
     xkb = xkbgroup.XKeyboard()
     layouts = settings.setup_layouts(xkb)
     log.info("Layouts configured by setxkbmap: %s", layouts)

@@ -17,11 +17,15 @@ requirements = [
     'Click>=6.0',
     'python-xlib',
     'xkbgroup',
-    # TODO: put package requirements here
 ]
 
 test_requirements = [
-    # TODO: put package test requirements here
+    'pytest',
+    'pytest-cache',
+    'pytest-cov',
+    'pytest-mccabe',
+    'pytest-pep8',
+    'pytest-pylint',
 ]
 
 setup(

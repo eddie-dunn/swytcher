@@ -3,8 +3,8 @@
 
 Inspiration taken from http://unix.stackexchange.com/a/334293/138633
 """
-from typing import Callable
 import logging
+from typing import Callable
 
 import Xlib
 import Xlib.display

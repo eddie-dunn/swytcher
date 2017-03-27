@@ -1,7 +1,7 @@
 """Settings module"""
-import configparser
 import logging
 import os
+import configparser
 
 
 # Move these to config.ini
@@ -32,7 +32,7 @@ def setup_layouts(xkb):
     """Setup layout settings"""
     config = get_config()
 
-    global NOTIFY
+    global NOTIFY  # pylint: disable=global-statement
     NOTIFY = config['logging'].getboolean('notify')
     # NOTE: implement support for setting loglevel from config someday
 
@@ -54,6 +54,7 @@ def setup_layouts(xkb):
 
 
 def get_config():
+    """Gets config options from config file"""
     config = configparser.ConfigParser()
     filenames = [os.path.expanduser('~/.config/swytcher/config.ini')]
     if not config.read(filenames):
