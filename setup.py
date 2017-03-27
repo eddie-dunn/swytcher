@@ -37,6 +37,9 @@ setup(
     ],
     package_dir={'swytcher':
                  'swytcher'},
+    data_files = [
+        ('', ['swytcher/log_conf.ini', 'swytcher/config.ini']),
+    ],
     entry_points={
         'console_scripts': [
             'swytcher=swytcher.cli:main'
