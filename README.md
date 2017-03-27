@@ -27,8 +27,8 @@ setxkbmap \
 * Add config file ☑
     * Use config-file ☑
 
-* Check that package can be installed
-    * Figure out how to include config files in the package
+* Check that package can be installed ☑
+    * Figure out how to include config files in the package ☑
 
 * Finish README.md
 
