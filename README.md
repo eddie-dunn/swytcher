@@ -41,6 +41,9 @@ setxkbmap \
 
 * Debian package?
 
+* Use a `src/` folder?
+  https://blog.ionelmc.ro/2014/05/25/python-packaging/#the-structure
+
 More functionality:
 
 * Executable to toggle layout
