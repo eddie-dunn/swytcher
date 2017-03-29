@@ -92,7 +92,8 @@ def change_callback(name_list, xkb, layouts: list) -> None:  # pragma: no cover
 
 def main(args=None):  # pragma: no cover
     """Main"""
-    print(args)
+    if not args:
+        pass
     xkb = xkbgroup.XKeyboard()
     layouts = settings.setup_layouts(xkb)
     log.info("Layouts configured by setxkbmap: %s", layouts)
