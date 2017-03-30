@@ -4,25 +4,13 @@ import os
 import configparser
 
 
-# Move these to config.ini
-SECONDARY_FILTER = (
-    "Msgcompose",  # Icedove window class when writing email
-    "Pidgin",
-)
-SECONDARY_SUBSTRINGS = (
-    "Outlook Web App",
-    "Google Hangouts",
-    "Chromium",
-)
-PRIMARY_FILTER = (
-    "Gnome-terminal",
-)
-PRIMARY_SUBSTRINGS = (
-    "VIM",
-    "NVIM",
-)
 LOGLEVEL = logging.DEBUG if os.environ.get("DEBUG") else logging.INFO
 NOTIFY = True
+PATH_TEMPLATES = (
+    '{home}/.config/swytcher/{filename}',
+    '{home}/.local/swytcher/config/{filename}',
+)
+
 
 logging.basicConfig(level=LOGLEVEL)
 log = logging.getLogger(__name__)  # pylint: disable=invalid-name
@@ -30,7 +18,14 @@ log = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
 def setup_layouts(xkb):
     """Setup layout settings"""
-    config = get_config()
+    # config = get_configini('config.ini')
+    config = configparser.ConfigParser()
+    filename = 'config.ini'
+    config_file = get_config(filename)
+    if not config_file:
+        config_file = conf_not_found(filename, conf_paths(filename))
+
+    config.read(config_file)
 
     global NOTIFY  # pylint: disable=global-statement
     NOTIFY = config['logging'].getboolean('notify')
@@ -53,15 +48,29 @@ def setup_layouts(xkb):
     return layouts
 
 
-def get_config():
-    """Gets config options from config file"""
-    config = configparser.ConfigParser()
-    filenames = [os.path.expanduser('~/.config/swytcher/config.ini')]
-    if not config.read(filenames):
-        default_conf = "%s%s%s" % (os.path.dirname(__file__), os.path.sep,
-                                   'config.ini')
-        print("No config file found in %r, using default config %r" %
-              (filenames, default_conf))
-        config.read(default_conf)
+def conf_paths(filename) -> list:
+    """Get config paths"""
+    home = os.path.expanduser('~')
+    paths = [path.format(home=home, filename=filename) for path in
+             PATH_TEMPLATES]
+    return paths
 
-    return config
+
+def get_config(filename: str) -> str:
+    """Try to find user configured logfile"""
+    config_file = ''
+    for path in conf_paths(filename):
+        if os.path.isfile(path):
+            config_file = path
+            break
+    return config_file
+
+
+def conf_not_found(filename: str, config_paths: list) -> str:
+    """Log warning that config file was not found, return path to default
+    conf"""
+    default_conf = "%s%s%s" % (os.path.dirname(__file__), os.path.sep,
+                               filename)
+    log.warning("Config file %r not found in %r, using default %r", filename,
+                config_paths, default_conf)
+    return default_conf
