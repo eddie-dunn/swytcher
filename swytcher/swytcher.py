@@ -12,7 +12,6 @@ import swytcher.xwindow as xwindow
 from .util import suppress_err
 
 
-logging.basicConfig(level=settings.LOGLEVEL)
 log = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
 
@@ -95,7 +94,7 @@ def main(args=None):  # pragma: no cover
     if not args:
         pass
     xkb = xkbgroup.XKeyboard()
-    layouts = settings.setup_layouts(xkb)
+    layouts = settings.setup_layouts(xkb, settings.CONFIG_INI)
     log.info("Layouts configured by setxkbmap: %s", layouts)
     partial_cb = functools.partial(change_callback, xkb=xkb, layouts=layouts)
     xwindow.run(partial_cb)

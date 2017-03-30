@@ -1,10 +1,12 @@
 """Settings module"""
 import logging
+import logging.config
 import os
 import configparser
 
+CONFIG_INI = None
 
-LOGLEVEL = logging.DEBUG if os.environ.get("DEBUG") else logging.INFO
+# LOGLEVEL = logging.DEBUG if os.environ.get("DEBUG") else logging.INFO
 NOTIFY = True
 PATH_TEMPLATES = (
     '{home}/.config/swytcher/{filename}',
@@ -12,24 +14,54 @@ PATH_TEMPLATES = (
 )
 
 
-logging.basicConfig(level=LOGLEVEL)
 log = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
 
-def setup_layouts(xkb):
-    """Setup layout settings"""
-    # config = get_configini('config.ini')
+def _setup_logging() -> None:
+    # Setup logging
+    log_conf = 'log_conf.ini'
+    logfile = get_config(log_conf)
+
+    if not logfile:
+        logfile = conf_not_found(log_conf)
+
+    logging.config.fileConfig(logfile, disable_existing_loggers=False)
+
+
+def _get_configparser() -> configparser.ConfigParser:
     config = configparser.ConfigParser()
-    filename = 'config.ini'
-    config_file = get_config(filename)
+    config_ini = 'config.ini'
+    config_file = get_config(config_ini)
     if not config_file:
-        config_file = conf_not_found(filename, conf_paths(filename))
+        config_file = conf_not_found(
+            config_ini, log_msg=True, config_paths=conf_paths(config_ini))
 
     config.read(config_file)
+    if not config:
+        raise FileNotFoundError("{} not found".format(config_ini))
+    return config
+
+
+def _setup_config(config: configparser.ConfigParser) -> None:
+    # Setup config.ini
+    global CONFIG_INI  # pylint: disable=global-statement
+    CONFIG_INI = config
 
     global NOTIFY  # pylint: disable=global-statement
     NOTIFY = config['logging'].getboolean('notify')
     # NOTE: implement support for setting loglevel from config someday
+
+
+def load_configs() -> None:
+    """Load configs"""
+    _setup_logging()
+    _setup_config(_get_configparser())
+
+
+def setup_layouts(xkb, config):
+    """Setup layout settings"""
+    if not config:
+        raise AssertionError("Config file must be loaded first")
 
     layout_sections = [
         (name, section) for name, section in config.items()
@@ -66,11 +98,15 @@ def get_config(filename: str) -> str:
     return config_file
 
 
-def conf_not_found(filename: str, config_paths: list) -> str:
+def conf_not_found(
+        filename: str, log_msg: bool=False, config_paths: list=None) -> str:
     """Log warning that config file was not found, return path to default
     conf"""
     default_conf = "%s%s%s" % (os.path.dirname(__file__), os.path.sep,
                                filename)
-    log.warning("Config file %r not found in %r, using default %r", filename,
-                config_paths, default_conf)
+
+    if log_msg:
+        log.warning("Config file %r not found%s, using default %r", filename,
+                    " in %r" % config_paths if config_paths else "",
+                    default_conf)
     return default_conf

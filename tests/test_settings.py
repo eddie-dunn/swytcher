@@ -1,5 +1,8 @@
 """Tests for settings.py"""
+# pylint: disable=invalid-name
 # pylint: disable=missing-docstring
+# pylint: disable=protected-access
+import collections
 import unittest
 
 import pytest
@@ -12,20 +15,43 @@ def os_mock(monkeypatch):
     """Path out os"""
     mock_os = unittest.mock.MagicMock(spec=settings.os)
     mock_os.path.expanduser.return_value = '/home/foouser'
-    mock_os.path.isfile.return_value = 'my/file/path'
     monkeypatch.setattr(settings, 'os', mock_os)
     return mock_os
 
 
+# setup_layouts
 def test_setup_layouts():
     """Test setup_layouts"""
     class TestXkb:  # pylint: disable=too-few-public-methods
         groups_names = ('layout1', 'layout2')
-    msettings = settings.setup_layouts(TestXkb())
-    assert (
-        (msettings[0]['name'], msettings[1]['name']) ==
-        ('layout1', 'layout2')
-    )
+
+    config = collections.OrderedDict((
+        ('layout_1', {'strings': 'foo', 'substrings': 'bar'}),
+        ('layout_2', {'strings': 'baz', 'substrings': 'qux'}),
+    ))
+    msettings = settings.setup_layouts(TestXkb(), config=config)
+    expected = [
+        {'name': 'layout1', 'strings': ['foo'], 'substrings': ['bar']},
+        {'name': 'layout2', 'strings': ['baz'], 'substrings': ['qux']},
+    ]
+    assert msettings == expected
+
+
+def test_setup_layouts_config_not_loaded():
+    """Test assertion error when config is not available"""
+    with pytest.raises(AssertionError):
+        class TestXkb:  # pylint: disable=too-few-public-methods
+            groups_names = ('layout1', 'layout2')
+        settings.setup_layouts(TestXkb(), None)
+
+
+# _get_configparser
+def test_get_configparser_filenotfound(monkeypatch):
+    mock_parser = unittest.mock.MagicMock(spec=settings.configparser)
+    mock_parser.ConfigParser().__bool__.return_value = False
+    monkeypatch.setattr(settings, 'configparser', mock_parser)
+    with pytest.raises(FileNotFoundError):
+        settings._get_configparser()
 
 
 # get_config
@@ -41,3 +67,17 @@ def test_get_config_fail(os_mock):
     """Test that get_config returns a string"""
     os_mock.path.isfile.return_value = False
     assert settings.get_config('conf.ini') == ''
+
+
+# conf_paths
+def test_conf_paths(os_mock):
+    # pylint: disable=redefined-outer-name,unused-argument
+    assert (settings.conf_paths('foo_file')[0] ==
+            '/home/foouser/.config/swytcher/foo_file')
+
+
+# conf_not_found
+def test_conf_not_found(os_mock):
+    # pylint: disable=redefined-outer-name,unused-argument
+    default_conf = settings.conf_not_found('name', ['path'])
+    assert default_conf.endswith('name')

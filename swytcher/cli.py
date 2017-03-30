@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
 """CLI frontend for Swytcher"""
-import logging
-import logging.config
-
 import click
 
 import swytcher.settings as settings
@@ -14,15 +11,7 @@ def main(args=None):
     """Console script for swytcher"""
     # click.echo("See click documentation at http://click.pocoo.org/")
     click.echo(__name__)
-    # Setup logging
-    log_conf = 'log_conf.ini'
-    logfile = settings.get_config(log_conf)
-
-    if not logfile:
-        logfile = settings.conf_not_found(
-            log_conf, settings.conf_paths(log_conf))
-
-    logging.config.fileConfig(logfile, disable_existing_loggers=False)
+    settings.load_configs()  # pylint: disable=protected-access
 
     swytcher.main(args)
 
