@@ -112,7 +112,9 @@ def conf_not_found(
                                filename)
 
     if log_msg:
-        log.warning("Config file %r not found%s, using default %r", filename,
-                    " in %r" % config_paths if config_paths else "",
-                    default_conf)
+        log.warning(
+            "Config file %r not found%s; using default %r",
+            filename,
+            " in %s" % ' or '.join(config_paths) if config_paths else "",
+            default_conf)
     return default_conf
