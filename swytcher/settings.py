@@ -5,8 +5,8 @@ import os
 import configparser
 
 CONFIG_INI = None
+NOTIFY = None
 
-# LOGLEVEL = logging.DEBUG if os.environ.get("DEBUG") else logging.INFO
 NOTIFY = True
 PATH_TEMPLATES = (
     '{home}/.config/swytcher/{filename}',
@@ -17,7 +17,7 @@ PATH_TEMPLATES = (
 log = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
 
-def _setup_logging() -> None:
+def _setup_logging(config) -> None:
     # Setup logging
     log_conf = 'log_conf.ini'
     logfile = get_config(log_conf)
@@ -26,6 +26,12 @@ def _setup_logging() -> None:
         logfile = conf_not_found(log_conf)
 
     logging.config.fileConfig(logfile, disable_existing_loggers=False)
+
+    # Optionally override logging from config.ini
+    loglevel = config['logging'].get('loglevel')
+    if loglevel:
+        logging.getLogger().setLevel(logging.getLevelName(loglevel))
+        print("Loglevel %r set!" % loglevel)
 
 
 def _get_configparser() -> configparser.ConfigParser:
@@ -43,19 +49,19 @@ def _get_configparser() -> configparser.ConfigParser:
 
 
 def _setup_config(config: configparser.ConfigParser) -> None:
-    # Setup config.ini
+    # Setup globals from config.ini
     global CONFIG_INI  # pylint: disable=global-statement
     CONFIG_INI = config
 
     global NOTIFY  # pylint: disable=global-statement
     NOTIFY = config['logging'].getboolean('notify')
-    # NOTE: implement support for setting loglevel from config someday
 
 
 def load_configs() -> None:
     """Load configs"""
-    _setup_logging()
-    _setup_config(_get_configparser())
+    config = _get_configparser()
+    _setup_config(config)
+    _setup_logging(config)
 
 
 def setup_layouts(xkb, config):
