@@ -49,4 +49,6 @@ More functionality:
 * Executable to toggle layout
 * Remember layout for windows
     * Should be easy to implement using the default fallback
-    * but I need to get unique window id to check against
+      but I need to get unique window id to check against
+    * Save keyboard layout every time. If window id is changed, the layout will
+      have been saved; this can be used for lookup later
