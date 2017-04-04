@@ -52,3 +52,8 @@ More functionality:
       but I need to get unique window id to check against
     * Save keyboard layout every time. If window id is changed, the layout will
       have been saved; this can be used for lookup later
+
+
+* Update questions:
+  * http://unix.stackexchange.com/questions/12072/how-do-i-get-current-keyboard-layout#
+  * http://unix.stackexchange.com/questions/78980/how-do-i-change-currently-selected-keyboard-layout-from-command-line?rq=1
