@@ -28,7 +28,13 @@ Automatically switches your keyboard layout based on your active window.
 Features
 --------
 
-* TODO
+* Switch keyboard layout based on X window class
+* Switch keyboard layout based on X window name
+
+Planned features
+
+* Remember last keyboard layout for each window
+
 
 Credits
 ---------
