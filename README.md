@@ -53,6 +53,8 @@ More functionality:
     * Save keyboard layout every time. If window id is changed, the layout will
       have been saved; this can be used for lookup later
 
+* Add possibility to run user specified command for window events
+  * http://unix.stackexchange.com/questions/256713/how-to-execute-a-command-on-window-focus-unfocus
 
 * Update questions:
   * http://unix.stackexchange.com/questions/12072/how-do-i-get-current-keyboard-layout#
