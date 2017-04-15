@@ -1,8 +1,10 @@
 """Settings module"""
+import configparser
 import logging
 import logging.config
 import os
-import configparser
+import shutil
+
 
 CONFIG_INI = None
 NOTIFY = None
@@ -10,7 +12,7 @@ NOTIFY = None
 NOTIFY = True
 PATH_TEMPLATES = (
     '{home}/.config/swytcher/{filename}',
-    '{home}/.local/swytcher/config/{filename}',
+    # '{home}/.local/swytcher/config/{filename}',
 )
 
 
@@ -41,6 +43,7 @@ def _get_configparser() -> configparser.ConfigParser:
     if not config_file:
         config_file = conf_not_found(
             config_ini, log_msg=True, config_paths=conf_paths(config_ini))
+        config_file = shutil.copy(config_file, conf_paths(config_ini)[0])
 
     config.read(config_file)
     if not config:
