@@ -49,6 +49,7 @@ setxkbmap \
 
 * Install swytcher with git dependencies
   * http://stackoverflow.com/questions/36544700/how-to-pip-install-a-package-that-has-git-dependencies
+  * https://www.reddit.com/r/Python/comments/2crput/how_to_install_with_pip_directly_from_github/?st=j1cbteyf&sh=b969f668
 
 * Update questions:
   * http://unix.stackexchange.com/questions/12072/how-do-i-get-current-keyboard-layout#
