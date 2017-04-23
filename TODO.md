@@ -47,6 +47,9 @@ setxkbmap \
 * Add possibility to run user specified command for window events
   * http://unix.stackexchange.com/questions/256713/how-to-execute-a-command-on-window-focus-unfocus
 
+* Install swytcher with git dependencies
+  * http://stackoverflow.com/questions/36544700/how-to-pip-install-a-package-that-has-git-dependencies
+
 * Update questions:
   * http://unix.stackexchange.com/questions/12072/how-do-i-get-current-keyboard-layout#
   * http://unix.stackexchange.com/questions/78980/how-do-i-change-currently-selected-keyboard-layout-from-command-line?rq=1
