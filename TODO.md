@@ -54,3 +54,22 @@ setxkbmap \
 * Update questions:
   * http://unix.stackexchange.com/questions/12072/how-do-i-get-current-keyboard-layout#
   * http://unix.stackexchange.com/questions/78980/how-do-i-change-currently-selected-keyboard-layout-from-command-line?rq=1
+
+* Track time spent in different apps:
+    > Ah, what I really miss about time tracking software isn't necessarily
+    something where I manually type in what I've been working on, as much as
+    it's something like a self-hosted RescueTime[0].  Instead of manually
+    adding things to it, it allows you to mark certain applications and
+    websites as you doing something productive (for example, if you're running
+    Atom and visiting StackOverflow and GitHub, you're probably doing something
+    productive) and then tracks that via its clients and shows you a nice
+    overview of how much of your time is actually spent on doing something
+    productive.  Now, of course, the fact that RescueTime is centralized and
+    hasn't released the source code of its clients makes me instantly dismiss
+    it as a software I would use, but I would love to find a certain
+    self-hosted solution that does pretty much exactly what RescueTime does.
+    [0] https://www.rescuetime.com/
+
+    https://news.ycombinator.com/item?id=14182563
+
+<!-- vim: set tabstop=8 expandtab shiftwidth=4 softtabstop=4 : -->
