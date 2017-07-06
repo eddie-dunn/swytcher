@@ -82,8 +82,8 @@ def setup_layouts(xkb, config):
         log.info("Config section %r used for %r", name, xkb.groups_names[i])
         layouts.append({
             'name': xkb.groups_names[i],
-            'strings': section['strings'].split(),
-            'substrings': section['substrings'].split(),
+            'strings': section['strings'].strip().splitlines(),
+            'substrings': section['substrings'].strip().splitlines(),
         })
 
     return layouts
