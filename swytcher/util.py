@@ -1,10 +1,11 @@
 """Util functions"""
-from contextlib import wraps
 import logging
+from contextlib import wraps  # type: ignore
+from typing import Type
 
 
 def suppress_err(
-        exception: Exception, logger: logging.Logger=None,
+        exception: Type[Exception], logger: logging.Logger=None,
         level=logging.WARNING, traceback=False):
     """Decorator that will catch `exception`, suppress it, and optionally log
     it with a traceback through the logger.

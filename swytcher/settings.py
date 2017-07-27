@@ -5,7 +5,6 @@ import logging.config
 import os
 import shutil
 
-
 CONFIG_INI = None
 NOTIFY = None
 
@@ -19,12 +18,12 @@ PATH_TEMPLATES = (
 log = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
 
-def _setup_logging(config) -> None:
+def _setup_logging(config: configparser.ConfigParser) -> None:
     # Setup logging
     log_conf = 'log_conf.ini'
     logfile = get_config(log_conf)
 
-    if not logfile:
+    if not logfile:  # pragma: no cover; how to mock a configparser object?
         logfile = conf_not_found(log_conf)
 
     logging.config.fileConfig(logfile, disable_existing_loggers=False)
@@ -32,7 +31,8 @@ def _setup_logging(config) -> None:
     # Optionally override logging from config.ini
     loglevel = config['logging'].get('loglevel')
     if loglevel:
-        logging.getLogger().setLevel(logging.getLevelName(loglevel))
+        logger = logging.getLogger()
+        logger.setLevel(logging.getLevelName(loglevel))  # type: ignore
         print("Loglevel %r set!" % loglevel)
 
 
@@ -57,7 +57,7 @@ def _setup_config(config: configparser.ConfigParser) -> None:
     CONFIG_INI = config
 
     global NOTIFY  # pylint: disable=global-statement
-    NOTIFY = config['logging'].getboolean('notify')
+    NOTIFY = config['logging'].getboolean('notify')  # type: ignore
 
 
 def load_configs() -> None:
@@ -108,7 +108,8 @@ def get_config(filename: str) -> str:
 
 
 def conf_not_found(
-        filename: str, log_msg: bool=False, config_paths: list=None) -> str:
+        filename: str, log_msg: bool = False,
+        config_paths: list = None) -> str:
     """Log warning that config file was not found, return path to default
     conf"""
     default_conf = "%s%s%s" % (os.path.dirname(__file__), os.path.sep,

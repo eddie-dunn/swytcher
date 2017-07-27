@@ -45,6 +45,14 @@ def test_setup_layouts_config_not_loaded():
         settings.setup_layouts(TestXkb(), None)
 
 
+# _setup_logging
+def test_setup_logging_conf_lacks_log_setting():
+    """Test behavior when loglevel cannot be retrieved from config; this may
+    happen if the config lacks a logging setting, which is OK."""
+    config = {'logging': {}}
+    settings._setup_logging(config)
+
+
 # _get_configparser
 def test_get_configparser_filenotfound(monkeypatch):
     mock_parser = unittest.mock.MagicMock(spec=settings.configparser)
@@ -52,6 +60,20 @@ def test_get_configparser_filenotfound(monkeypatch):
     monkeypatch.setattr(settings, 'configparser', mock_parser)
     with pytest.raises(FileNotFoundError):
         settings._get_configparser()
+
+
+def test_get_configparser_default_conf(monkeypatch):
+    mock_parser = unittest.mock.MagicMock(spec=settings.configparser)
+    mock_parser.ConfigParser().__bool__.return_value = True
+    monkeypatch.setattr(settings, 'configparser', mock_parser)
+
+    get_config_mock = unittest.mock.MagicMock(
+        spec=settings.get_config, return_value=None)
+    monkeypatch.setattr(settings, 'get_config', get_config_mock)
+
+    monkeypatch.setattr(settings.shutil, 'copy', unittest.mock.MagicMock)
+
+    assert settings._get_configparser()
 
 
 # get_config

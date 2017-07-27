@@ -1,7 +1,7 @@
 """Tests for util.py"""
 # pylint: disable=missing-docstring
-import unittest.mock
 import logging
+import unittest.mock
 
 import swytcher.util as util
 
@@ -26,3 +26,12 @@ def test_suppress_err_logs():
 
     testfunc()
     assert logger.log.called
+
+
+def test_suppress_err_no_logging():
+    """test that exception was logged after being suppressed"""
+    @util.suppress_err(IndexError)
+    def testfunc():
+        raise IndexError("wrong")
+
+    testfunc()

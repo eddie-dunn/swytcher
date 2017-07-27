@@ -1,8 +1,8 @@
 """Tests for cli.py"""
 import unittest
 
-from click.testing import CliRunner
 import pytest
+from click.testing import CliRunner
 
 from swytcher import cli
 

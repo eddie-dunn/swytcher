@@ -9,8 +9,7 @@ from typing import Callable
 import Xlib
 import Xlib.display
 
-from .util import suppress_err
-
+from swytcher.util import suppress_err
 
 log = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
@@ -53,7 +52,7 @@ def get_window_name(window: Xlib.xobject.drawable.Window) -> str:
 @suppress_err(Exception, log, logging.ERROR, traceback=True)
 @suppress_err(Xlib.error.BadWindow)  # ignore BadWindow
 def handle_xevent(event: Xlib.X.PropertyNotify,
-                  callback: Callable[[list], None]) -> bool:
+                  callback: Callable[..., None]) -> bool:
     """Handle xevent; returns true if an event was handled"""
     if event.type != Xlib.X.PropertyNotify:
         return False

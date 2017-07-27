@@ -3,8 +3,8 @@
 # pylint: disable=invalid-name
 from unittest.mock import MagicMock
 
-import Xlib
 import pytest
+import Xlib
 
 from swytcher import xwindow
 

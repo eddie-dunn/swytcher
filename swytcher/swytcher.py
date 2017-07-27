@@ -4,20 +4,20 @@ import functools
 import logging
 import subprocess
 from typing import Iterable
+from typing import Set
 
 import xkbgroup
 
 import swytcher.settings as settings
 import swytcher.xwindow as xwindow
-from .util import suppress_err
-
+from swytcher.util import suppress_err
 
 log = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
 
 # Move this to swytcher.system
 @suppress_err(FileNotFoundError, log)
-def notify(title: str, msg: str='') -> None:  # pragma: no cover
+def notify(title: str, msg: str = '') -> None:  # pragma: no cover
     """Use notify-send (if available) to inform user of layout switch."""
     if not settings.NOTIFY:
         return
@@ -42,7 +42,8 @@ def change_layout(xkb: xkbgroup.XKeyboard, layout: str) -> bool:
     return True
 
 
-def _match_substrings(name_list: list, substrings: list) -> set:
+def _match_substrings(name_list: Iterable[str],
+                      substrings: Iterable[str]) -> set:
     """Substring filter match"""
     found_matches = set()
     for name in name_list:
@@ -55,7 +56,7 @@ def _match_substrings(name_list: list, substrings: list) -> set:
 
 
 def matches(name_list: Iterable[str], strings: Iterable[str],
-            substrings: Iterable[str]) -> bool:
+            substrings: Iterable[str]) -> Set[str]:
     """Returns True if any of the strings in the two filters `strings` and
     `substrings` occur in `name_list`."""
     matched = (set(strings) & set(name_list) or
