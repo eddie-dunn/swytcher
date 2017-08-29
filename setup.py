@@ -30,7 +30,7 @@ test_requirements = [
 
 setup(
     name='swytcher',
-    version='0.1.0',
+    version='0.1.1',
     description="Automatic",
     long_description=readme + '\n\n' + history,
     author="Eddie Dunn",
