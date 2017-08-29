@@ -61,7 +61,9 @@ def matches(name_list: Iterable[str], strings: Iterable[str],
     `substrings` occur in `name_list`."""
     matched = (set(strings) & set(name_list) or
                _match_substrings(name_list, substrings or {}))
-    log.debug('%r matched %r or %r', name_list, strings, substrings)
+    if matched:
+        log.debug('%r matched %r from %r or %r',
+                  name_list, matched, strings, substrings)
     return matched
 
 
