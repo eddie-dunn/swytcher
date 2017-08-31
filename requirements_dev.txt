@@ -3,7 +3,7 @@ coverage==4.4.1
 cryptography==2.0.3
 flake8==3.4.1
 isort>=4.2.8
-mypy
+mypy==0.521
 pip
 pycodestyle
 pylint
