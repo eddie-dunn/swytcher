@@ -21,11 +21,11 @@ def suppress_err(
 
         E.g., it will be equivalent to implementing 'func' as:
 
-        def func():
-            try:
-                return 'a' + 1
-            except TypeError as err:
-                logging.error("You can't do that: %s", err)
+        >>> def func():
+                try:
+                    return 'a' + 1
+                except TypeError as err:
+                    logging.error("You can't do that: %s", err)
 
         Multiple exceptions can be handled by just adding more decorators:
 
