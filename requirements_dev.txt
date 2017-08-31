@@ -16,5 +16,5 @@ pytest-pylint==0.7.1
 PyYAML==3.12
 Sphinx==1.6.3
 tox==2.7.0
-watchdog
+watchdog==0.8.3
 wheel
