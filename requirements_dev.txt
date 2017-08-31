@@ -4,7 +4,7 @@ cryptography==2.0.3
 flake8==3.4.1
 isort>=4.2.8
 mypy==0.521
-pip
+pip==9.0.1
 pycodestyle
 pylint
 pytest
