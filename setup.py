@@ -31,7 +31,7 @@ test_requirements = [
 setup(
     name='swytcher',
     version='0.1.1',
-    description="Automatic",
+    description="Automatically switch layout based on your active window",
     long_description=readme + '\n\n' + history,
     author="Eddie Dunn",
     author_email='eddie.dunn@gmail.com',
@@ -49,7 +49,7 @@ setup(
     install_requires=requirements,
     license="MIT license",
     zip_safe=False,
-    keywords='swytcher',
+    keywords='keyboard layout switcher',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',
