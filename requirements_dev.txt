@@ -11,7 +11,7 @@ pytest==3.2.1
 pytest-cov==2.5.1
 pytest-isort==0.1.0
 pytest-mccabe==0.1
-pytest-pep8
+pytest-pep8==1.0.6
 pytest-pylint
 PyYAML
 Sphinx
