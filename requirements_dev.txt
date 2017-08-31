@@ -8,7 +8,7 @@ pip==9.0.1
 pycodestyle==2.3.1
 pylint==1.7.2
 pytest==3.2.1
-pytest-cov
+pytest-cov==2.5.1
 pytest-isort
 pytest-mccabe
 pytest-pep8
