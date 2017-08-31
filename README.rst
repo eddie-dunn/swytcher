@@ -14,11 +14,12 @@ Swytcher
         :alt: Documentation Status
 
 .. image:: https://pyup.io/repos/github/eddie-dunn/swytcher/shield.svg
-     :target: https://pyup.io/repos/github/eddie-dunn/swytcher/
-     :alt: Updates
+        :target: https://pyup.io/repos/github/eddie-dunn/swytcher/
+        :alt: Updates
 
 
-Automatically switches your keyboard layout based on your active window.
+.. rubric:: Automatically switches your keyboard layout based on your active
+            window.
 
 Are you using multiple keyboard layouts? Have you discovered that the US
 keyboard layout is a lot more suitable for programming than the layout you have
@@ -48,17 +49,19 @@ Installation
 ------------
 
 .. code-block:: bash
-    pip install --user swytcher
+
+    $ pip install --user swytcher
 
 
 Usage
 -----
 
 Run Swytcher once so that the config file is created (or copy the sample config
-from the swytcher patckage).
+from the swytcher package).
 
 .. code-block:: bash
-    swytcher
+
+    $ swytcher
 
 Then close the application and edit `~/.config/swytcher/config.ini` and add the
 window classes/names to the corresponding layout section.
