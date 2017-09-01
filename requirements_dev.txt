@@ -18,3 +18,4 @@ Sphinx
 tox
 watchdog
 wheel
+-r requirements.txt
