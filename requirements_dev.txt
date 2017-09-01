@@ -12,7 +12,7 @@ pytest-cov
 pytest-isort
 pytest-mccabe
 pytest-pep8
-pytest-pylint
+pytest-pylint==0.7.1
 PyYAML
 Sphinx
 tox
