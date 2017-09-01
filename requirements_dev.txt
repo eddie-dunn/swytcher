@@ -8,7 +8,7 @@ pip
 pycodestyle
 pylint
 pytest
-pytest-cov
+pytest-cov==2.5.1
 pytest-isort
 pytest-mccabe
 pytest-pep8
