@@ -16,6 +16,6 @@ pytest-pylint
 PyYAML
 Sphinx
 tox
-watchdog
+watchdog==0.8.3
 wheel
 -r requirements.txt
