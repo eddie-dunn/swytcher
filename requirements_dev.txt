@@ -1,6 +1,6 @@
 bumpversion
 coverage
-cryptography
+cryptography==2.0.3
 flake8
 isort>=4.2.8
 mypy
