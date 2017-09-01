@@ -17,7 +17,7 @@ deploy:
       WnZyNnk5NkxBN0FtWHJrNjdHUGpGMnVUcFpXQkFWTm10VUdnMFR3bUszWW1lbDVneEZkZXBEVWNW
       ZDA1MWYzR0pQa2VpWW9JbUl0QlYzTWxrWmtqZzAyRHowYzZSNXVEa0NNbXBVWGRNOThZZFV4NEhH
       aHRIQmt6L3h4ZFBHRWhweEk2dXY3KzRESmhMdzVYdGk0SEYwbU9NY3Y1Vi9XQWpqS2JwTzlaWnM9
-  true:
+  on:
     repo: eddie-dunn/swytcher
     tags: true
 install: pip install -U tox-travis
