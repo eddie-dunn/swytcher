@@ -5,7 +5,7 @@ flake8
 isort>=4.2.8
 mypy
 pip
-pycodestyle
+pycodestyle==2.3.1
 pylint
 pytest
 pytest-cov
