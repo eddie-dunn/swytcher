@@ -18,8 +18,7 @@ Swytcher
         :alt: Updates
 
 
-.. rubric:: Automatically switches your keyboard layout based on your active
-            window.
+*Automatically switches your keyboard layout based on your active window.*
 
 Are you using multiple keyboard layouts? Have you discovered that the US
 keyboard layout is a lot more suitable for programming than the layout you have
@@ -43,6 +42,9 @@ Features
 
 Planned features
 
+* Add explicit command to copy default config instead of doing this
+  automatically
+* Switch layout based on combination of window class and name
 * Remember last keyboard layout for each window
 
 Installation
