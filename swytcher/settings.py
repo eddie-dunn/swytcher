@@ -10,6 +10,7 @@ NOTIFY = None
 
 NOTIFY = True
 PATH_TEMPLATES = (
+    # '/tmp/{home}/.config/swytcher/{filename}',
     '{home}/.config/swytcher/{filename}',
     # '{home}/.local/swytcher/config/{filename}',
 )
@@ -33,18 +34,24 @@ def _setup_logging(config: configparser.ConfigParser) -> None:
     if loglevel:
         logger = logging.getLogger()
         logger.setLevel(logging.getLevelName(loglevel))  # type: ignore
-        print("Loglevel %r set!" % loglevel)
+        log.info("Loglevel %r set!", loglevel)
+
+
+def _make_conf(config_ini: str) -> str:
+    config_file = conf_not_found(
+        config_ini, log_msg=True, config_paths=conf_paths(config_ini))
+    cp_conf_path = conf_paths(config_ini)[0]
+    log.info("Copying default conf to %r", cp_conf_path)
+    os.makedirs(os.path.dirname(cp_conf_path), exist_ok=True)
+    config_file = shutil.copy(config_file, cp_conf_path)
+    return config_file
 
 
 def _get_configparser() -> configparser.ConfigParser:
     config = configparser.ConfigParser()
     config_ini = 'config.ini'
-    config_file = get_config(config_ini)
-    if not config_file:
-        config_file = conf_not_found(
-            config_ini, log_msg=True, config_paths=conf_paths(config_ini))
-        config_file = shutil.copy(config_file, conf_paths(config_ini)[0])
-
+    config_file = get_config(config_ini) or _make_conf(config_ini)
+    log.info("Using config found in %r", config_file)
     config.read(config_file)
     if not config:
         raise FileNotFoundError("{} not found".format(config_ini))
