@@ -13,7 +13,7 @@ pytest-isort
 pytest-mccabe
 pytest-pep8
 pytest-pylint
-PyYAML
+PyYAML==3.12
 Sphinx
 tox
 watchdog
