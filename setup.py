@@ -30,7 +30,7 @@ test_requirements = [
 
 setup(
     name='swytcher',
-    version='0.1.3',
+    version='0.1.4',
     description="Automatically switch layout based on your active window",
     long_description=readme + '\n\n' + history,
     author="Eddie Dunn",
