@@ -10,7 +10,7 @@ pylint
 pytest
 pytest-cov
 pytest-isort
-pytest-mccabe
+pytest-mccabe==0.1
 pytest-pep8
 pytest-pylint
 PyYAML
