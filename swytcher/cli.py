@@ -15,7 +15,7 @@ logging.basicConfig(level=logging.INFO)
 def main(args=None):
     """Console script for swytcher"""
     # click.echo("See click documentation at http://click.pocoo.org/")
-    # click.echo(__name__)
+    click.echo(__name__)
     settings.load_configs()  # pylint: disable=protected-access
 
     swytcher.main(args)
