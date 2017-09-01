@@ -9,7 +9,7 @@ pycodestyle
 pylint
 pytest
 pytest-cov
-pytest-isort
+pytest-isort==0.1.0
 pytest-mccabe
 pytest-pep8
 pytest-pylint
