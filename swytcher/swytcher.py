@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 """Automatic keyboard layout switcher"""
 import functools
 import logging
