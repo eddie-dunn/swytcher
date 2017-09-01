@@ -17,5 +17,5 @@ PyYAML
 Sphinx
 tox
 watchdog
-wheel
+wheel==0.29.0
 -r requirements.txt
