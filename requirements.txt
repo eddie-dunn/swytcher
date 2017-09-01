@@ -1,0 +1,5 @@
+click==6.7
+python-xlib==0.19
+# swytcher==0.1.2
+-e git://github.com/eddie-dunn/xkbgroup.git#egg=xkbgroup
+# TODO: No need to install from my forked repo once some fixes are included
