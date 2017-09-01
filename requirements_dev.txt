@@ -14,7 +14,7 @@ pytest-mccabe
 pytest-pep8
 pytest-pylint
 PyYAML
-Sphinx
+Sphinx==1.6.3
 tox
 watchdog
 wheel
