@@ -20,12 +20,7 @@ requirements = [
 ]
 
 test_requirements = [
-    'pytest',
-    'pytest-cache',
-    'pytest-cov',
-    'pytest-mccabe',
-    'pytest-pep8',
-    'pytest-pylint',
+    'tox',
 ]
 
 setup(

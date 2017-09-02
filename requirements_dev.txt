@@ -1,21 +1,10 @@
 bumpversion
-coverage
 cryptography
-flake8
-isort>=4.2.8
-mypy
 pip
-pycodestyle
-pylint
-pytest
-pytest-cov
-pytest-isort
-pytest-mccabe
-pytest-pep8
-pytest-pylint
 PyYAML
 Sphinx
 tox
 watchdog
 wheel
 -r requirements.txt
+-r requirements_test.txt
