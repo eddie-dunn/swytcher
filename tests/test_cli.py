@@ -24,3 +24,11 @@ def test_command_line_interface():
     help_result = runner.invoke(cli.main, ['--help'])
     assert help_result.exit_code == 0
     assert '--help' in help_result.output
+
+
+def test_cli_cpcfg():
+    """CLI should handle cpcfg command"""
+    runner = CliRunner()
+    help_result = runner.invoke(cli.main, ['--cpcfg'])
+    assert help_result.exit_code == 0
+    assert 'Sample config copied to' in help_result.output
