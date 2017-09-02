@@ -25,7 +25,7 @@ def _setup_logging(config: configparser.ConfigParser) -> None:
     logfile = get_config(log_conf)
 
     if not logfile:  # pragma: no cover; how to mock a configparser object?
-        logfile = conf_not_found(log_conf)
+        logfile = default_conf_name(log_conf)
 
     logging.config.fileConfig(logfile, disable_existing_loggers=False)
 
@@ -38,7 +38,7 @@ def _setup_logging(config: configparser.ConfigParser) -> None:
 
 
 def _make_conf(config_ini: str) -> str:
-    config_file = conf_not_found(
+    config_file = default_conf_name(
         config_ini, log_msg=True, config_paths=conf_paths(config_ini))
     cp_conf_path = conf_paths(config_ini)[0]
     log.info("Copying default conf to %r", cp_conf_path)
@@ -114,18 +114,18 @@ def get_config(filename: str) -> str:
     return config_file
 
 
-def conf_not_found(
+def default_conf_name(
         filename: str, log_msg: bool = False,
         config_paths: list = None) -> str:
     """Log warning that config file was not found, return path to default
     conf"""
-    default_conf = "%s%s%s" % (os.path.dirname(__file__), os.path.sep,
-                               filename)
+    default_conf_path = "%s%s%s" % (os.path.dirname(__file__), os.path.sep,
+                                    filename)
 
     if log_msg:
         log.warning(
             "Config file %r not found%s; using default %r",
             filename,
             " in %s" % ' or '.join(config_paths) if config_paths else "",
-            default_conf)
-    return default_conf
+            default_conf_path)
+    return default_conf_path

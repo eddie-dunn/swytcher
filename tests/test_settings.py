@@ -98,8 +98,8 @@ def test_conf_paths(os_mock):
             '/home/foouser/.config/swytcher/foo_file')
 
 
-# conf_not_found
+# default_conf_name
 def test_conf_not_found(os_mock):
     # pylint: disable=redefined-outer-name,unused-argument
-    default_conf = settings.conf_not_found('name', ['path'])
+    default_conf = settings.default_conf_name('name', ['path'])
     assert default_conf.endswith('name')
