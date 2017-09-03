@@ -101,7 +101,7 @@ def test_conf_paths(os_mock):
 # default_conf_name
 def test_conf_not_found(os_mock):
     # pylint: disable=redefined-outer-name,unused-argument
-    default_conf = settings.default_conf_name('name', ['path'])
+    default_conf = settings.default_conf_name('name')
     assert default_conf.endswith('name')
 
 

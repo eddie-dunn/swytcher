@@ -53,7 +53,7 @@ def copy_config(conf_name: str) -> str:
 def _get_configparser() -> configparser.ConfigParser:
     config = configparser.ConfigParser()
     config_ini = 'config.ini'
-    config_file = get_config(config_ini)
+    config_file = get_config(config_ini) or default_conf_name(config_ini)
     log.info("Using config found in %r", config_file)
     config.read(config_file)
     if not config:
@@ -110,25 +110,17 @@ def conf_paths(filename) -> list:
 def get_config(filename: str) -> str:
     """Try to find user configured logfile"""
     config_file = ''
-    for path in conf_paths(filename):
+    paths = conf_paths(filename)
+    for path in paths:
         if os.path.isfile(path):
             config_file = path
             break
+    else:
+        log.warning('Config file %r not found in %r', filename, paths)
     return config_file
 
 
-def default_conf_name(
-        filename: str, log_msg: bool = False,
-        config_paths: list = None) -> str:
+def default_conf_name(filename: str) -> str:
     """Log warning that config file was not found, return path to default
     conf"""
-    default_conf_path = "%s%s%s" % (os.path.dirname(__file__), os.path.sep,
-                                    filename)
-
-    if log_msg:
-        log.warning(
-            "Config file %r not found%s; using default %r",
-            filename,
-            " in %s" % ' or '.join(config_paths) if config_paths else "",
-            default_conf_path)
-    return default_conf_path
+    return "%s%s%s" % (os.path.dirname(__file__), os.path.sep, filename)
