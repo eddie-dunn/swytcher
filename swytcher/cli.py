@@ -16,9 +16,15 @@ def cpcfg(ctx, _param, value):
     """Copy config, then exit"""
     if not value or ctx.resilient_parsing:
         return
-    # TODO: Add functionality to copy config here
-    click.echo("Sample config copied to {!r}".format('destination'))
-    ctx.exit()
+    exit_code = 0
+    try:
+        copy = settings.copy_config('config.ini')
+        click.echo("Sample config copied to {!r}".format(copy))
+    except FileExistsError as err:
+        click.echo("Sample config NOT copied; destination file {!r} already "
+                   "exists".format(str(err)))
+        exit_code = 2
+    ctx.exit(exit_code)
 
 
 @click.command()

@@ -37,12 +37,15 @@ def _setup_logging(config: configparser.ConfigParser) -> None:
         log.info("Loglevel %r set!", loglevel)
 
 
-def _make_conf(config_ini: str) -> str:
-    config_file = default_conf_name(
-        config_ini, log_msg=True, config_paths=conf_paths(config_ini))
-    cp_conf_path = conf_paths(config_ini)[0]
-    log.info("Copying default conf to %r", cp_conf_path)
+def copy_config(conf_name: str) -> str:
+    """Copies default config to user's config dir. Returns copied filename"""
+    config_file = default_conf_name(conf_name)
+    cp_conf_path = conf_paths(conf_name)[0]
+    log.info("Copying default conf from %r to %r", config_file, cp_conf_path)
     os.makedirs(os.path.dirname(cp_conf_path), exist_ok=True)
+    if os.path.isfile(cp_conf_path):
+        # TODO: return a Result object instead of raising errors
+        raise FileExistsError(cp_conf_path)
     config_file = shutil.copy(config_file, cp_conf_path)
     return config_file
 
@@ -50,7 +53,7 @@ def _make_conf(config_ini: str) -> str:
 def _get_configparser() -> configparser.ConfigParser:
     config = configparser.ConfigParser()
     config_ini = 'config.ini'
-    config_file = get_config(config_ini) or _make_conf(config_ini)
+    config_file = get_config(config_ini)
     log.info("Using config found in %r", config_file)
     config.read(config_file)
     if not config:

@@ -103,3 +103,20 @@ def test_conf_not_found(os_mock):
     # pylint: disable=redefined-outer-name,unused-argument
     default_conf = settings.default_conf_name('name', ['path'])
     assert default_conf.endswith('name')
+
+
+# copy_config
+def test_copy_config_ok(monkeypatch):
+    mock = unittest.mock.MagicMock()
+    mock.copy.return_value = 'foo'
+    monkeypatch.setattr(settings, 'shutil', mock)
+    assert settings.copy_config('doesntexist.ini') == 'foo'
+
+
+def test_copy_config_nok(monkeypatch):
+    mock = unittest.mock.MagicMock()
+    mock.path.isfile.return_value = True
+    monkeypatch.setattr(settings, 'os', mock)
+    monkeypatch.setattr(settings, 'shutil', mock)
+    with pytest.raises(FileExistsError):
+        settings.copy_config('doesntexist.ini')
