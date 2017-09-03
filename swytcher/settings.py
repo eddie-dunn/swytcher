@@ -22,10 +22,7 @@ log = logging.getLogger(__name__)  # pylint: disable=invalid-name
 def _setup_logging(config: configparser.ConfigParser) -> None:
     # Setup logging
     log_conf = 'log_conf.ini'
-    logfile = get_config(log_conf)
-
-    if not logfile:  # pragma: no cover; how to mock a configparser object?
-        logfile = default_conf_name(log_conf)
+    logfile = get_config(log_conf, warn=False) or default_conf_name(log_conf)
 
     logging.config.fileConfig(logfile, disable_existing_loggers=False)
 
@@ -54,7 +51,7 @@ def _get_configparser() -> configparser.ConfigParser:
     config = configparser.ConfigParser()
     config_ini = 'config.ini'
     config_file = get_config(config_ini) or default_conf_name(config_ini)
-    log.info("Using config found in %r", config_file)
+    log.info("Using config from %r", config_file)
     config.read(config_file)
     if not config:
         raise FileNotFoundError("{} not found".format(config_ini))
@@ -107,7 +104,7 @@ def conf_paths(filename) -> list:
     return paths
 
 
-def get_config(filename: str) -> str:
+def get_config(filename: str, warn: bool = True) -> str:
     """Try to find user configured logfile"""
     config_file = ''
     paths = conf_paths(filename)
@@ -115,7 +112,7 @@ def get_config(filename: str) -> str:
         if os.path.isfile(path):
             config_file = path
             break
-    else:
+    if warn and not config_file:
         log.warning('Config file %r not found in %r', filename, paths)
     return config_file
 
