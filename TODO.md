@@ -27,9 +27,7 @@ setxkbmap \
     * Figure out how to include config files in the package ☑
 * Publish to PyPi ☑
 
-* Publish on Github
-* When finished, add my program to
-  http://unix.stackexchange.com/questions/12072/how-do-i-get-current-keyboard-layout#
+* Publish on Github ☑
 * Debian package?
 
 
@@ -37,7 +35,13 @@ setxkbmap \
 
 * Print window class/title that matched
     * Use regex for matching title?
+
 * Executable to toggle layout
+  * http://unix.stackexchange.com/questions/78980/how-do-i-change-currently-selected-keyboard-layout-from-command-line?rq=1
+
+* Display current active layout:
+  * http://unix.stackexchange.com/questions/12072/how-do-i-get-current-keyboard-layout#
+
 * Remember layout for windows
     * Should be easy to implement using the default fallback
       but I need to get unique window id to check against
@@ -50,10 +54,6 @@ setxkbmap \
 * Install swytcher with git dependencies
   * http://stackoverflow.com/questions/36544700/how-to-pip-install-a-package-that-has-git-dependencies
   * https://www.reddit.com/r/Python/comments/2crput/how_to_install_with_pip_directly_from_github/?st=j1cbteyf&sh=b969f668
-
-* Update questions:
-  * http://unix.stackexchange.com/questions/12072/how-do-i-get-current-keyboard-layout#
-  * http://unix.stackexchange.com/questions/78980/how-do-i-change-currently-selected-keyboard-layout-from-command-line?rq=1
 
 * Track time spent in different apps:
     > Ah, what I really miss about time tracking software isn't necessarily

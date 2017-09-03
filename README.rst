@@ -42,8 +42,6 @@ Features
 
 Planned features
 
-* Add explicit command to copy default config instead of doing this
-  automatically
 * Switch layout based on combination of window class and name
 * Remember last keyboard layout for each window
 
@@ -58,15 +56,14 @@ Installation
 Usage
 -----
 
-Run Swytcher once so that the config file is created (or copy the sample config
-from the swytcher package).
+First, copy the sample configuration:
 
 .. code-block:: bash
 
-    $ swytcher
+    $ swytcher --cpcfg
 
-Then close the application and edit `~/.config/swytcher/config.ini` and add the
-window classes/names to the corresponding layout section.
+Now you can edit `~/.config/swytcher/config.ini` and add the window
+classes/names to the corresponding layout section.
 
 `layout_primary` maps to your first keyboard layout, and `layout_secondary`
 will map to your second. If you have more than two layouts you will have to add
@@ -84,7 +81,7 @@ most DEs and WMs.
 
 
 Credits
----------
+-------
 
 This package was created with Cookiecutter_ and the
 `audreyr/cookiecutter-pypackage`_ project template.
