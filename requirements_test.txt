@@ -1,4 +1,4 @@
-coverage==4.4.1
+coverage==4.4.2
 flake8==3.4.1
 isort==4.2.15
 pycodestyle==2.3.1
