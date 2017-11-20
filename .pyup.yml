@@ -15,7 +15,7 @@ pin: False
 # update schedule
 # default: empty
 # allowed: "every day", "every week", ..
-schedule: "every day"
+schedule: "every week"
 
 # search for requirement files
 # default: True
@@ -28,9 +28,6 @@ search: True
 requirements:
   - requirements.txt:
       # update all dependencies and pin them
-      update: all
-      pin: True
-  - requirements_test.txt:
       update: all
       pin: True
   - requirements_dev.txt:
