@@ -7,4 +7,3 @@ tox
 watchdog
 wheel
 -r requirements.txt
--r requirements_test.txt
