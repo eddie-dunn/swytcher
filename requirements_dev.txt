@@ -3,7 +3,7 @@ cryptography
 pip
 PyYAML
 Sphinx
-tox
+tox==3.19.0
 watchdog
 wheel
 -r requirements.txt
