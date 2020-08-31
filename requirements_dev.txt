@@ -1,5 +1,5 @@
 bumpversion
-cryptography
+cryptography==3.1
 pip
 PyYAML
 Sphinx
