@@ -1,6 +1,6 @@
 bumpversion
 cryptography
-pip
+pip==20.2.2
 PyYAML
 Sphinx
 tox
