@@ -1,4 +1,4 @@
-bumpversion
+bumpversion==0.6.0
 cryptography
 pip
 PyYAML
