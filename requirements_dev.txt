@@ -1,7 +1,7 @@
 bumpversion
 cryptography
 pip
-PyYAML
+PyYAML==5.3.1
 Sphinx
 tox
 watchdog
