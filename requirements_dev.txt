@@ -4,6 +4,6 @@ pip
 PyYAML
 Sphinx
 tox
-watchdog
+watchdog==0.10.3
 wheel
 -r requirements.txt
