@@ -2,7 +2,7 @@ bumpversion
 cryptography
 pip
 PyYAML
-Sphinx
+Sphinx==3.2.1
 tox
 watchdog
 wheel
